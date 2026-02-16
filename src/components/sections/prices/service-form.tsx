@@ -1,0 +1,197 @@
+'use client'
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { calculateService } from '@/constans/services.constans'
+import { useServices } from '@/context/service-context'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Check, Plus } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from "react-hook-form"
+import z from 'zod'
+
+const formSchema = z.object({
+  service: z.enum(calculateService.map((item) => item.slug)),
+  fullName: z.string().min(2, "Numele este prea scurt"),
+  phone: z.string().min(5, "Număr de telefon invalid"),
+  surface: z.string().min(1, "Suprafața trebuie să fie minim 1"),
+  address: z.string().min(5, "Adresa este prea scurtă"),
+  comment: z.string().max(200).optional()
+})
+
+type ServiceFormValues = z.infer<typeof formSchema>
+
+export default function ServiceForm() {
+  const { addService } = useServices()
+  const [success, setSuccess] = useState<boolean>(false)
+  const form = useForm<ServiceFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      service: "häuser&wohnungen",
+      fullName: "",
+      phone: '',
+      surface: '',
+      address: "",
+      comment: ""
+    }
+  })
+
+  const onSubmit = (data: ServiceFormValues) => {
+    const serviceDetails = calculateService.find(s => s.slug === data.service)
+
+    addService({
+      id: crypto.randomUUID(),
+      title: serviceDetails?.title || data.service,
+      price: serviceDetails?.price || 0,
+      phone: data.phone,
+      address: data.address,
+      surface: data.surface,
+      slug: data.service
+    })
+
+    setSuccess(true)
+    setTimeout(() => {
+      setSuccess(false)
+    }, 1500)
+  }
+
+  const selectedServiceSlug = form.watch("service")
+  const currentService = calculateService.find(s => s.slug === selectedServiceSlug)
+
+  return (
+    <div className='border border-border rounded-lg p-6'>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-9">
+
+          {/* SELECT - Art der Dienstleistung */}
+          <FormField
+            control={form.control}
+            name="service"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Art der Dienstleistung:</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-14 border-foreground/10 w-full">
+                      <SelectValue placeholder="Wählen Sie einen Dienst aus" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent position='popper'>
+                    {calculateService.map((item) => (
+                      <SelectItem key={item.slug} value={item.slug}>
+                        <div className="flex justify-between items-center w-full gap-3">
+                          <span className="font-semibold">{item.title}</span>
+                          <span className="text-muted-foreground">{item.price} € / H</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {currentService && (
+            <div className="space-y-2 animate-in fade-in duration-300 w-full">
+              <p className="font-medium">Was beinhaltet der Service:</p>
+              <ul className="grid grid-cols-1 gap-1 pl-2">
+                {currentService.list.map((task, idx) => (
+                  <li key={idx} className="text-label flex items-center gap-2">
+                    <span className="w-1 h-1 bg-label rounded-full" />
+                    {task}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* INPUTS - Name & Phone */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name, Vorname:</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z. B. Max Mustermann" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefonnummer:</FormLabel>
+                  <FormControl>
+                    <Input placeholder="z. B. 15123456789" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* SURFACE & ADDRESS ROW */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="surface"
+              render={({ field }) => (
+                <FormItem className="md:col-span-1">
+                  <FormLabel>Oberfläche:</FormLabel>
+                  <div className="relative">
+                    <FormControl><Input type='number' className='h-12 appearance-none' {...field} /></FormControl>
+                    <span className="absolute right-3 top-2 text-sm">m²</span>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem className="md:col-span-2">
+                  <FormLabel>Adresse:</FormLabel>
+                  <FormControl><Input placeholder="Rosenheimer Straße..." {...field} /></FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* COMMENT */}
+          <FormField
+            control={form.control}
+            name="comment"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kommentar:</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Kommentar hinzufügen..."  {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className={success ? "bg-green-400 hover:bg-green-400 cursor-default" : ""}
+            size='full'
+          >
+            {success ? <>Hinzugefügt! <Check /></> : <>Zur Liste hinzufügen <Plus /></>}
+          </Button>
+        </form>
+      </Form>
+    </div>
+
+  )
+}
