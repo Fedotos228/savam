@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form"
 import z from 'zod'
 
 const formSchema = z.object({
-  service: z.enum(calculateService.map((item) => item.slug)),
+  service: z.enum(calculateService.map((item) => item.slug) as [string, ...string[]]),
   fullName: z.string().min(2, "Numele este prea scurt"),
   phone: z.string().min(5, "Număr de telefon invalid"),
   surface: z.string().min(1, "Suprafața trebuie să fie minim 1"),
