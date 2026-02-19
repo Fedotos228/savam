@@ -7,7 +7,7 @@ interface ServiceCardProps {
 
 export default function Card({ card }: ServiceCardProps) {
   return (
-    <div className='group flex flex-col h-full transition-transform duration-300 hover:-translate-y-2'>
+    <div className='group flex flex-col h-full transition-transform duration-300 hover:-translate-y-2 rounded-2xl'>
       <div className='overflow-hidden'>
         <Image
           src={card.image.src}

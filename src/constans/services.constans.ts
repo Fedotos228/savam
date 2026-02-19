@@ -64,4 +64,4 @@ export const calculateService: CalculateService[] = [
     list: ['Restaurantreinigung', 'Küchenreinigung', 'Gastraumreinigung', 'Sanitärbereiche'],
     price: 25
   }
-]
+] as const

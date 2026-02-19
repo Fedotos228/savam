@@ -2,10 +2,14 @@
 
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import Link from 'next/link'
 import { useRef } from 'react'
 
 export default function Hero() {
   const container = useRef(null)
+
+  const phone = '+49 177 333 8542'
+
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1.5 } })
@@ -62,6 +66,13 @@ export default function Hero() {
         <h3 className='subtitle'>
           Passion, love and discipline for cleaning
         </h3>
+
+        <Link
+          className='block sm:hidden max-w-xs mx-auto mt-13 bg-background text-primary py-3.5 px-6 hover:bg-blue hover:text-background transition-colors rounded-xl'
+          href={`tel:${phone}`}
+        >
+          {phone}
+        </Link>
       </div>
     </div>
   )

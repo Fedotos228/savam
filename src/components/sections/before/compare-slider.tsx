@@ -19,7 +19,7 @@ export default function CompareSlider({ images }: CompareSliderProps) {
 
   return (
     // Containerul principal trebuie să aibă dimensiuni fixe sau aspect-ratio
-    <div className='relative w-full max-w-[552px] aspect-square overflow-hidden select-none touch-none bg-gray-200 rounded-lg'>
+    <div className='relative w-full max-w-[552px] aspect-square overflow-hidden select-none touch-none bg-gray-200 rounded-lg even:hidden md:even:block'>
 
       {/* 1. Imaginea de fundal (Nach) */}
       <div className='absolute inset-0 w-full h-full'>
