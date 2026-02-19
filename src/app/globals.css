@@ -107,7 +107,7 @@
   }
 
   h1 {
-    @apply uppercase text-[48px] font-semibold text-gold text-center
+    @apply uppercase text-[40px] md:text-[48px] font-semibold text-gold text-center
   }
 
   h2 {
@@ -132,5 +132,11 @@
 
   section {
     @apply py-15 sm:py-20
+  }
+}
+
+@layer component {
+  .corner-gold {
+    @apply hidden md:block
   }
 }

@@ -41,7 +41,7 @@ export default function Services() {
           title='Unsere Dienstleistungen'
           subtitle='Professionelle Reinigungsservices für private und gewerbliche Kunden.'
         />
-        <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6'>
           {services.map((item, i) => (
             <div key={i} className="service-card opacity-0">
               <Card card={item} />

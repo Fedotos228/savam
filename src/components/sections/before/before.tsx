@@ -13,7 +13,7 @@ export default function Before() {
         subtitle='Sie können die Früchte unserer Arbeit sehen. Die Ergebnisse sprechen für sich.'
       />
       <div className='container'>
-        <div className='grid grid-cols-2 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 place-items-center gap-6'>
           {beforeAfterImages.map((item, i) => (
             <CompareSlider
               key={i}
@@ -25,7 +25,7 @@ export default function Before() {
         <div className='mt-13'>
           <h5 className='text-foreground font-semibold mb-3'>Möchten Sie ähnliche Ergebnisse erzielen? Kontaktieren Sie uns jetzt!</h5>
 
-          <div className='flex items-center justify-center gap-2'>
+          <div className='flex items-center flex-col md:flex-row justify-center gap-2'>
             <Button asChild className='w-full max-w-100'>
               <Link href={'mailto:savamcleaning@gmail.com'}>
                 <Mail /> Schreiben: savamcleaning@gmail.com

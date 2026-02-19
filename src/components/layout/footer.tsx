@@ -8,9 +8,9 @@ export default function Footer() {
       style={{ background: 'url(./hero.jpg) center/cover no-repeat' }}
       className='py-20'
     >
-      <div className='container grid grid-cols-[360px_1fr] gap-x-20 text-background'>
+      <div className='container grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-x-20 text-background'>
         <div>
-          <div className='mb-7'>
+          <div className='mb-7 max-w-sm'>
             <Image
               src={'/Logo.svg'}
               alt='logo'
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
         <div>
           <h5 className='text-left text-background font-semibold mb-13'>Reinigungsdienste:</h5>
-          <div className='grid grid-cols-2 gap-x-17.5 gap-y-13'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-17.5 gap-y-13'>
             {calculateService.map((service, i) => (
               <div key={i}>
                 <h6 className='mb-3 text-background'>{service.title}</h6>
