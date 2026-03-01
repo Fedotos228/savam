@@ -14,6 +14,10 @@ export default async function Home() {
     servicesService.getServices(),
   ])
 
+  if (!homeData) {
+    return <div>Error: Home data not found. Please check Strapi.</div>
+  }
+  
   const { hero, about } = homeData
 
   return (

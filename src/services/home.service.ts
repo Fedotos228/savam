@@ -1,5 +1,5 @@
 import { HomeData } from '@/types/home.types'
-import { client } from './strapi'
+import { getSingle } from './strapi'
 
 class HomeService {
   private get sectionHeading() {
@@ -41,12 +41,8 @@ class HomeService {
     }
   }
 
-  async getHome(): Promise<HomeData> {
-    const homeReq = await client.single('home')
-
-    const { data } = await homeReq.find(this.query)
-
-    return data as unknown as HomeData
+  async getHome(): Promise<HomeData | null> {
+    return await getSingle('home', this.query)
   }
 }
 

@@ -13,11 +13,10 @@ export async function getCollection<T>(
   options: StrapiQuery = {}
 ): Promise<T[]> {
   const coll = await client.collection(contentType)
-
   const response = await coll.find(options as any) as unknown as StrapiCollection<T>
 
   if (!response) {
-    throw new Error('asdf')
+    throw new Error(`Failed to fetch collection type: ${contentType}`)
   }
 
   return response.data
@@ -26,10 +25,14 @@ export async function getCollection<T>(
 export async function getSingle<T>(
   contentType: string,
   options: StrapiQuery = {}
-): Promise<T> {
+): Promise<T | null> {
   const single = await client.single(contentType)
+  const response = await single.find(options as any) as StrapiSingle<T>
 
-  const { data } = await (single.find(options as any) as Promise<StrapiSingle<T>>)
+  if (!response || !response.data) {
+    console.error(`Failed to fetch single type: ${contentType}`)
+    return null
+  }
 
-  return data
+  return response.data
 }
