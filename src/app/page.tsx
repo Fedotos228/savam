@@ -5,15 +5,27 @@ import Hero from '@/components/sections/hero/hero'
 import Prices from '@/components/sections/prices/prices'
 import Review from '@/components/sections/review/review'
 import Services from '@/components/sections/services/services'
+import { homeService } from '@/services/home.service'
+import { servicesService } from '@/services/services.service'
 
-export default function Home() {
+export default async function Home() {
+  const [homeData, services] = await Promise.all([
+    homeService.getHome(),
+    servicesService.getServices(),
+  ])
+
+  const { hero, about } = homeData
+
   return (
     <main>
-      <Hero />
-      <About />
-      <Services />
-      <Prices />
-      <Before />
+      <Hero hero={hero} />
+      <About about={about} />
+      <Services
+        sectionHeading={homeData.services.SectionHeading}
+        services={services}
+      />
+      <Prices sectionHeading={homeData.prices.SectionHeading} />
+      <Before sectionHeading={homeData.beforeAfter.SectionHeading} />
       <Review />
       <Faq />
     </main>

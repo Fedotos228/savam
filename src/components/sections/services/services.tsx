@@ -1,7 +1,8 @@
 'use client'
 
 import SectionHeading from '@/components/shared/section-heading'
-import { services } from '@/constans/services.constans'
+import { ServiceCards } from '@/services/services.service'
+import { SectionHeadingType } from '@/types/home.types'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -12,13 +13,17 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-export default function Services() {
+export interface ServiceData {
+  sectionHeading: SectionHeadingType
+  services: ServiceCards[]
+}
+
+export default function Services({ sectionHeading, services }: ServiceData) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
     const cards = gsap.utils.toArray('.service-card')
 
-    // SETĂM starea inițială prin GSAP, nu prin CSS static
     gsap.set(cards, { opacity: 0, y: 30 })
 
     gsap.to(cards, {
@@ -35,11 +40,11 @@ export default function Services() {
   }, { scope: containerRef })
 
   return (
-    <section className='bg-background-blue' ref={containerRef}>
+    <section className='bg-background-blue' ref={containerRef} id='dienstleistungen'>
       <div className="container">
         <SectionHeading
-          title='Unsere Dienstleistungen'
-          subtitle='Professionelle Reinigungsservices für private und gewerbliche Kunden.'
+          title={sectionHeading.title}
+          subtitle={sectionHeading.subtitle}
         />
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6'>
           {services.map((item, i) => (

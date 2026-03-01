@@ -7,12 +7,16 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'wonderful-garden-7a8e37383c.media.strapiapp.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'randomuser.me',
         port: '',
         pathname: '/api/portraits/**',
       },
     ],
   }
-};
+}
 
-export default nextConfig;
+export default nextConfig

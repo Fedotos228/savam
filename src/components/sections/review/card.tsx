@@ -1,9 +1,10 @@
-import { Review } from '@/constans/reviews.constans'
+import BlockRendererClient from '@/components/shared/block-renderer-client'
+import { ReviewsData } from '@/services/reviews.service'
 import { Star } from 'lucide-react'; // Folosim lucide-react pentru stele
 import Image from 'next/image'
 
 interface CardProps {
-  review: Review
+  review: ReviewsData
 }
 
 export default function Card({ review }: CardProps) {
@@ -21,23 +22,28 @@ export default function Card({ review }: CardProps) {
           </time>
         </div>
 
-        <p className="text-gray-700 leading-relaxed">
-          {review.text}
-        </p>
+        <div className="text-gray-700 leading-relaxed line-clamp-6">
+          <BlockRendererClient content={review.content} />
+        </div>
       </div>
 
       <div className="flex items-center gap-3 mt-6">
         <div className="relative w-12 h-12">
-          <Image
-            src={review.user.avatar.src}
-            alt={review.user.avatar.alt}
-            fill
-            className='rounded-full object-cover grayscale-[0.5]'
-          />
+          {review.avatar && (
+            <Image
+              src={review.avatar.url}
+              alt={review.avatar.alternativeText || ""}
+              fill
+              sizes='100%'
+              className='rounded-full object-cover grayscale-[0.5]'
+            />
+          )}
         </div>
-        <span className='font-semibold text-gray-800 tracking-tight'>
-          {review.user.name}
-        </span>
+        {review.name && (
+          <span className='font-semibold text-gray-800 tracking-tight'>
+            {review.name}
+          </span>
+        )}
       </div>
     </div>
   )

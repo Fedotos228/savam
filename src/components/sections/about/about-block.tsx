@@ -1,6 +1,7 @@
 'use client'
 
-import { AboutBlockTypes } from '@/types/page.types'
+import BlockRendererClient from '@/components/shared/block-renderer-client'
+import { AboutBlockType } from '@/types/home.types'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -13,7 +14,7 @@ if (typeof window !== 'undefined') {
 }
 
 interface AboutBlockProps {
-  content: AboutBlockTypes,
+  content: AboutBlockType,
   even: boolean
 }
 
@@ -60,17 +61,16 @@ export default function AboutBlock({ content, even }: AboutBlockProps) {
         className={even ? 'order-2' : 'order-1'}
       >
         <h4 className='mb-2'>
-          {content.title}
+          {content.Title}
         </h4>
-        <p className='text-balance'>
-          {content.content}
-        </p>
+        <BlockRendererClient content={content.Content} />
       </div>
       
       <div className={even ? 'order-1' : 'order-2'} ref={imageRef}>
+        
         <Image
-          src={content.image.src}
-          alt={content.image.alt}
+          src={content.Image.url}
+          alt={content.Image.alternativeText || content.Title}
           width={552}
           height={465}
           className="w-full"

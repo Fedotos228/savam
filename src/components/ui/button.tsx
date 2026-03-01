@@ -15,8 +15,8 @@ const buttonVariants = cva(
         courousel: ''
       },
       size: {
-        default: "px-6 py-3 h-12.5 has-[>svg]:px-3",
-        full: 'w-full h-12.5',
+        default: "px-6 py-3 h-12.5 has-[>svg]:px-3 text-sm md:text-base",
+        full: 'w-full max-w-full h-12.5 text-base',
         icon: "p-0 h-8 w-8",
       },
     },
