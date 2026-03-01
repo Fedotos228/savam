@@ -1,4 +1,4 @@
-import { ServiceCards } from '@/types/home.types'
+import { ServiceCards } from '@/services/services.service'
 import Image from 'next/image'
 
 

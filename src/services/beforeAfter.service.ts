@@ -1,5 +1,5 @@
-import { getCollection } from '@/api/helper'
 import { Document, StrapiImage, StrapiQuery } from '@/types/strapi.types'
+import { getCollection } from './strapi'
 
 export interface BeforeAfterData extends Document {
   beforeImage: StrapiImage

@@ -1,5 +1,5 @@
-import { getCollection } from '@/api/helper'
 import { ListItem, StrapiImage, StrapiQuery } from '@/types/strapi.types'
+import { getCollection } from './strapi'
 
 export interface ServiceCards extends Document {
   title: string

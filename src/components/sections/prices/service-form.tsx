@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { calculateService } from '@/constans/services.constans'
 import { useServices } from '@/context/service-context'
-import { PricesData } from '@/types/home.types'
+import { PricesData } from '@/services/prices.service'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'

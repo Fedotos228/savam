@@ -1,5 +1,5 @@
-import { getCollection } from '@/api/helper'
 import { ListItem, StrapiQuery } from '@/types/strapi.types'
+import { getCollection } from './strapi'
 
 export interface PricesData extends Document {
   id: number

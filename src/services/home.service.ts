@@ -1,5 +1,5 @@
-import { client } from '@/api/strapiClient'
 import { HomeData } from '@/types/home.types'
+import { client } from './strapi'
 
 class HomeService {
   private get sectionHeading() {

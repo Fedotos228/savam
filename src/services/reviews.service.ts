@@ -1,6 +1,6 @@
-import { getCollection } from '@/api/helper'
 import { Document, StrapiImage, StrapiQuery } from '@/types/strapi.types'
 import { BlocksContent } from '@strapi/blocks-react-renderer'
+import { getCollection } from './strapi'
 
 export interface ReviewsData extends Document {
   stars: number
