@@ -1,43 +1,4 @@
-import { CalculateService, ServiceCard } from '@/types/page.types'
-
-export const services: ServiceCard[] = [
-  {
-    image: {
-      src: '/service.png',
-      alt: 'Servce Image'
-    },
-    title: 'Wohnungs- & Hausreinigung',
-    description: 'Regelmäßige oder einmalige Reinigung für private Haushalte.',
-    list: ['Staubsaugen & Wischen', 'Küche & Bad', 'Flexible Termine']
-  },
-  {
-    image: {
-      src: '/service.png',
-      alt: 'Servce Image'
-    },
-    title: 'Praxis- & Hygienereinigung',
-    description: 'Hygienische Reinigung nach hohen Standards für Arztpraxen.',
-    list: ['Hygienestandards', 'Desinfektion', 'Zuverlässigkeit']
-  },
-  {
-    image: {
-      src: '/service.png',
-      alt: 'Servce Image'
-    },
-    title: 'Büro- & Gewerbereinigung',
-    description: 'Professionelle Reinigung für saubere und gepflegte Arbeitsplätze.',
-    list: ['Nach Geschäftsschluss', 'Regelmäßige Pflege', 'Individuelle Pläne']
-  },
-  {
-    image: {
-      src: '/service.png',
-      alt: 'Servce Image'
-    },
-    title: 'Restaurant- & Gastronomiereinigung',
-    description: 'Gründliche Reinigung für Küche, Gastraum und Sanitärbereiche.',
-    list: ['HACCP-nah', 'Fett & Küche', 'Zuverlässige Zeiten']
-  },
-]
+import { CalculateService } from '@/types/page.types'
 
 export const calculateService: CalculateService[] = [
   {

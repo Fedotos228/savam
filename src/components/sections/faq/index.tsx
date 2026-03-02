@@ -1,7 +1,11 @@
+import BlockRendererClient from '@/components/shared/block-renderer-client'
 import SectionHeading from '@/components/shared/section-heading'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { faqService } from '@/services/faq.service'
 
-export default function Faq() {
+export default async function Faq() {
+  const faq = await faqService.getFaq()
+
   return (
     <section className='bg-background-blue'>
       <div className="container">
@@ -16,13 +20,14 @@ export default function Faq() {
             className='space-y-4'
             collapsible
           >
-            <AccordionItem value="shipping">
-              <AccordionTrigger>What are your shipping options?</AccordionTrigger>
-              <AccordionContent>
-                We offer standard (5-7 days), express (2-3 days), and overnight
-                shipping. Free shipping on international orders.
-              </AccordionContent>
-            </AccordionItem>
+            {faq && faq.map((question, i) => (
+              <AccordionItem value={question.question} key={i}>
+                <AccordionTrigger>{question.question}</AccordionTrigger>
+                <AccordionContent>
+                  <BlockRendererClient content={question.content} />
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
       </div>

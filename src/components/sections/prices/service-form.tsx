@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -6,9 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { calculateService } from '@/constans/services.constans'
 import { useServices } from '@/context/service-context'
+import { PricesData } from '@/services/prices.service'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from "react-hook-form"
 import z from 'zod'
 
@@ -21,15 +23,33 @@ const formSchema = z.object({
   comment: z.string().max(200).optional()
 })
 
-type ServiceFormValues = z.infer<typeof formSchema>
-
-export default function ServiceForm() {
+export default function ServiceForm({ prices }: { prices: PricesData[] }) {
   const { addService } = useServices()
   const [success, setSuccess] = useState<boolean>(false)
+
+  const formSchema = useMemo(() => {
+    // Extragem dinamic slug-urile din response
+    const validSlugs = prices.map(p => p.slug)
+
+    return z.object({
+      // Folosim .refine pentru a verifica dacă valoarea selectată există în array-ul de prețuri primite din backend
+      service: z.string().refine((val) => validSlugs.includes(val), {
+        message: "Serviciul selectat nu este valid"
+      }),
+      fullName: z.string().min(2, "Numele este prea scurt"),
+      phone: z.string().min(5, "Număr de telefon invalid"),
+      surface: z.string().min(1, "Suprafața trebuie să fie minim 1"),
+      address: z.string().min(5, "Adresa este prea scurtă"),
+      comment: z.string().max(200).optional()
+    })
+  }, [prices])
+
+  type ServiceFormValues = z.infer<typeof formSchema>
+
   const form = useForm<ServiceFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      service: "häuser&wohnungen",
+      service: prices.length > 0 ? prices[0].slug : "",
       fullName: "",
       phone: '',
       surface: '',
@@ -39,7 +59,7 @@ export default function ServiceForm() {
   })
 
   const onSubmit = (data: ServiceFormValues) => {
-    const serviceDetails = calculateService.find(s => s.slug === data.service)
+    const serviceDetails = prices.find(s => s.slug === data.service)
 
     addService({
       id: crypto.randomUUID(),
@@ -56,10 +76,9 @@ export default function ServiceForm() {
       setSuccess(false)
     }, 1500)
   }
-
   const selectedServiceSlug = form.watch("service")
-  const currentService = calculateService.find(s => s.slug === selectedServiceSlug)
 
+  const currentServiceUIList = calculateService.find(s => s.slug === selectedServiceSlug)?.list || []
   return (
     <div className='border border-border rounded-lg p-6'>
       <Form {...form}>
@@ -79,7 +98,7 @@ export default function ServiceForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent position='popper'>
-                    {calculateService.map((item) => (
+                    {prices.map((item) => (
                       <SelectItem key={item.slug} value={item.slug}>
                         <div className="flex justify-between items-center w-full gap-3">
                           <span className="font-semibold">{item.title}</span>
@@ -94,11 +113,11 @@ export default function ServiceForm() {
             )}
           />
 
-          {currentService && (
+          {currentServiceUIList.length > 0 && (
             <div className="space-y-2 animate-in fade-in duration-300 w-full">
               <p className="font-medium">Was beinhaltet der Service:</p>
               <ul className="grid grid-cols-1 gap-1 pl-2">
-                {currentService.list.map((task, idx) => (
+                {currentServiceUIList.map((task, idx) => (
                   <li key={idx} className="text-label flex items-center gap-2">
                     <span className="w-1 h-1 bg-label rounded-full" />
                     {task}

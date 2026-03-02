@@ -29,12 +29,13 @@ export default function Header() {
   const phone = '+49 177 333 8542'
 
   return (
-    <header className='absolute z-20 left-1/2 -translate-x-1/2 top-10 flex items-center justify-between container'>
+    <header className='absolute z-20 left-1/2 -translate-x-1/2 top-10 flex items-center justify-center lg:justify-between container'>
       <Image 
         src={'./savam_yellow.svg'}
         alt='logo'
         width={115}
         height={50}
+        className='w-25 sm:w-28.75 h-26'
       />
       <nav className='hidden lg:flex items-center lg:gap-13'>
         {navigation.map((item, i) => (
@@ -44,7 +45,7 @@ export default function Header() {
         ))}
       </nav>
       <Link
-        className='hidden sm:block bg-background text-primary py-3.5 px-6 hover:bg-blue hover:text-background transition-colors rounded-xl'
+        className='hidden lg:block bg-background text-primary py-3.5 px-6 hover:bg-blue hover:text-background transition-colors rounded-xl'
         href={`tel:${phone}`}
       >
         {phone}

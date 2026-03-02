@@ -1,15 +1,12 @@
 'use client'
 
+import { HeroData } from '@/types/home.types'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import Link from 'next/link'
 import { useRef } from 'react'
 
-export default function Hero() {
+export default function Hero({ hero }: { hero: HeroData }) {
   const container = useRef(null)
-
-  const phone = '+49 177 333 8542'
-
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1.5 } })
@@ -31,30 +28,30 @@ export default function Hero() {
     >
       {/* Imaginea de fundal texturată */}
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-70"
         style={{ background: 'url(./hero.jpg) center/cover no-repeat' }}
       />
       {/* Sus Stânga */}
-      <div className="corner-gold absolute top-17.5 left-0 translate-0 w-35 h-0.5 -rotate-45 z-20"
+      <div className="corner-gold absolute top-17.5 left-0 -rotate-45 z-20"
         style={{ backgroundImage: 'url(./lesh.jpg)', backgroundSize: 'cover' }} />
 
       {/* Sus Dreapta */}
-      <div className="corner-gold absolute top-17.5 right-0 w-35 h-0.5 rotate-45 z-20"
+      <div className="corner-gold absolute top-17.5 right-0  rotate-45 z-20"
         style={{ backgroundImage: 'url(./lesh.jpg)', backgroundSize: 'cover' }} />
 
       {/* Jos Stânga */}
-      <div className="corner-gold absolute bottom-17.5 left-0 w-35 h-0.5 rotate-45 z-20"
+      <div className="corner-gold absolute bottom-17.5 left-0  rotate-45 z-20"
         style={{ backgroundImage: 'url(./lesh.jpg)', backgroundSize: 'cover' }} />
 
       {/* Jos Dreapta */}
-      <div className="corner-gold absolute bottom-17.5 right-0 w-35 h-0.5 -rotate-45 z-20"
+      <div className="corner-gold absolute bottom-17.5 right-0  -rotate-45 z-20"
         style={{ backgroundImage: 'url(./lesh.jpg)', backgroundSize: 'cover' }} />
 
 
       {/* Conținutul Central */}
       <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-3 z-10'>
-        <h1 className='title mb-13'>
-          Savam <br /> CLEANING
+        <h1 className='title mb-10 lg:mb-13 max-w-sm mx-auto'>
+          {hero.SectionHeading.title}
         </h1>
 
         <div className='devider relative mx-auto w-40 h-px mb-9'
@@ -64,15 +61,15 @@ export default function Hero() {
         </div>
 
         <h3 className='subtitle'>
-          Passion, love and discipline for cleaning
+          {hero.SectionHeading.subtitle}
         </h3>
-
+{/* 
         <Link
-          className='block sm:hidden max-w-xs mx-auto mt-13 bg-background text-primary py-3.5 px-6 hover:bg-blue hover:text-background transition-colors rounded-xl'
-          href={`tel:${phone}`}
+          className='block sm:hidden max-w-xs mx-auto mt-20 bg-background text-primary py-3.5 px-6 hover:bg-blue hover:text-background transition-colors rounded-xl'
+          href={`tel:${hero.phone}`}
         >
-          {phone}
-        </Link>
+          {hero.phone}
+        </Link> */}
       </div>
     </div>
   )

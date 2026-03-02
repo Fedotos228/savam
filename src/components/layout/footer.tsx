@@ -8,11 +8,11 @@ export default function Footer() {
       style={{ background: 'url(./hero.jpg) center/cover no-repeat' }}
       className='py-20'
     >
-      <div className='container grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-x-20 text-background'>
+      <div className='container grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-20 text-background'>
         <div>
           <div className='mb-7 max-w-sm'>
             <Image
-              src={'/Logo.svg'}
+              src={'./savam_yellow.svg'}
               alt='logo'
               width={115}
               height={50}

@@ -6,30 +6,34 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 interface CompareSliderProps {
-  images: StrapiImage[]
+  beforeImage: StrapiImage
+  afterImage: StrapiImage
 }
 
-export default function CompareSlider({ images }: CompareSliderProps) {
+export default function CompareSlider({ beforeImage, afterImage }: CompareSliderProps) {
   const [range, setRange] = useState<number>(50)
 
-  if (!images || images.length < 2) return null
+  if (!beforeImage || !afterImage) return null
 
-  const imageOne = images[0] // Partea "Vor"
-  const imageTwo = images[1] // Partea "Nach"
+  const imageOne = afterImage  // Partea "Vor"
+  const imageTwo = beforeImage // Partea "Nach"
 
   return (
     // Containerul principal trebuie să aibă dimensiuni fixe sau aspect-ratio
-    <div className='relative w-full max-w-[552px] aspect-square overflow-hidden select-none touch-none bg-gray-200 rounded-lg even:hidden md:even:block'>
+    <div className='relative w-full max-w-138 aspect-square overflow-hidden select-none touch-none bg-gray-200 rounded-lg even:hidden md:even:block'>
 
       {/* 1. Imaginea de fundal (Nach) */}
       <div className='absolute inset-0 w-full h-full'>
-        <Image
-          src={imageTwo.src}
-          alt={imageTwo.alt}
-          fill
-          priority
-          className='object-cover'
-        />
+        {imageOne && imageOne.url && (
+          <Image
+            src={imageOne.url}
+            alt={imageOne.alternativeText || 'Nach Image'}
+            fill
+            priority
+            sizes='100%'
+            className='object-cover'
+          />
+        )}
         <div className='absolute bottom-4 right-4 z-10 bg-[rgba(183,225,255,0.6)] px-3 py-1 rounded backdrop-blur-sm text-sm'>
           Nach
         </div>
@@ -39,14 +43,16 @@ export default function CompareSlider({ images }: CompareSliderProps) {
         className='absolute inset-0 z-20 overflow-hidden border-white'
         style={{ width: `${range}%` }}
       >
-        <div className='relative w-[552px] h-[552px]'>
-          <Image
-            src={imageOne.src}
-            alt={imageOne.alt}
-            fill
-            priority
-            className='object-cover'
-          />
+        <div className='relative w-138 h-138'>
+          {imageTwo && imageTwo.url && (
+            <Image
+              src={imageTwo.url}
+              alt={imageTwo.alternativeText || 'Vor Image'}
+              fill
+              priority
+              sizes='100%'
+              className='object-cover'
+            />)}
         </div>
         <div className='absolute bottom-4 left-4 z-10 bg-white/60 px-3 py-1 rounded backdrop-blur-sm text-sm'>
           Vor

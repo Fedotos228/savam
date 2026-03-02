@@ -8,11 +8,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { reviews } from '@/constans/reviews.constans'
 import { useEffect, useState } from 'react'
 import Card from './card'
+import { ReviewsData } from '@/services/reviews.service'
 
-export default function ReviewCarousel() {
+export default function ReviewCarousel({ reviews }: { reviews: ReviewsData[] }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
 

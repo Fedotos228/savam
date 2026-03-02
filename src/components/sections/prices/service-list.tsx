@@ -13,7 +13,9 @@ export default function ServiceList() {
       <div className='p-6'>
         <p className='mb-3'>Ausgewählte Dienstleistungen:</p>
         <div className='space-y-3 h-fit max-w-full min-h-154.5 overflow-y-auto '>
-          {services.map(service => (
+          {services.length === 0 ? (
+            <p className='text-sm text-muted-foreground'>Keine Dienstleistungen ausgewählt.</p>
+          ) : services.map(service => (
             <div key={service.id} className='flex items-center border border-border rounded-md p-3' >
               <div className='flex-1'>
                 <div className='flex items-center gap-6 mb-2'>
