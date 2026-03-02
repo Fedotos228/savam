@@ -15,9 +15,10 @@ export default async function Home() {
   ])
 
   if (!homeData) {
-    return <div>Error: Home data not found. Please check Strapi.</div>
+    console.warn("Home data not found. Ensure Strapi is running and entry is published.")
+    return null
   }
-  
+
   const { hero, about } = homeData
 
   return (
