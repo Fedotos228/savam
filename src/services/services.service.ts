@@ -22,6 +22,24 @@ class ServicesService {
   async getServices(): Promise<ServiceCards[]> {
     return getCollection('services', this.query)
   }
+
+  // async sendRequest(data: SelectedService[]): Promise<any> {
+  //   const requests = client.collection('requests')
+
+  //   const response = await requests.create({
+  //     data: {
+  //       services_list: data,
+  //       status: 'pending',
+  //       submittedAt: new Date().toISOString()
+  //     }
+  //   })
+
+  //   if (!response.data) {
+  //     throw new Error('Eroare la trimiterea cererii către Strapi')
+  //   }
+
+  //   return response
+  // }
 }
 
 export const servicesService = new ServicesService()

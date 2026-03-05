@@ -5,7 +5,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { calculateService } from '@/constans/services.constans'
 import { useServices } from '@/context/service-context'
 import { PricesData } from '@/services/prices.service'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,15 +12,6 @@ import { Check, Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useForm } from "react-hook-form"
 import z from 'zod'
-
-const formSchema = z.object({
-  service: z.enum(calculateService.map((item) => item.slug) as [string, ...string[]]),
-  fullName: z.string().min(2, "Numele este prea scurt"),
-  phone: z.string().min(5, "Număr de telefon invalid"),
-  surface: z.string().min(1, "Suprafața trebuie să fie minim 1"),
-  address: z.string().min(5, "Adresa este prea scurtă"),
-  comment: z.string().max(200).optional()
-})
 
 export default function ServiceForm({ prices }: { prices: PricesData[] }) {
   const { addService } = useServices()
@@ -32,14 +22,13 @@ export default function ServiceForm({ prices }: { prices: PricesData[] }) {
     const validSlugs = prices.map(p => p.slug)
 
     return z.object({
-      // Folosim .refine pentru a verifica dacă valoarea selectată există în array-ul de prețuri primite din backend
       service: z.string().refine((val) => validSlugs.includes(val), {
-        message: "Serviciul selectat nu este valid"
+        message: "Der ausgewählte Service ist nicht gültig"
       }),
-      fullName: z.string().min(2, "Numele este prea scurt"),
-      phone: z.string().min(5, "Număr de telefon invalid"),
-      surface: z.string().min(1, "Suprafața trebuie să fie minim 1"),
-      address: z.string().min(5, "Adresa este prea scurtă"),
+      fullName: z.string().min(2, "Der Name ist zu kurz"),
+      phone: z.string().min(5, "Ungültige Telefonnummer"),
+      surface: z.string().min(1, "Die Oberfläche muss mindestens 1 sein"),
+      address: z.string().min(5, "Die Adresse ist zu kurz"),
       comment: z.string().max(200).optional()
     })
   }, [prices])
@@ -64,12 +53,16 @@ export default function ServiceForm({ prices }: { prices: PricesData[] }) {
     addService({
       id: crypto.randomUUID(),
       title: serviceDetails?.title || data.service,
+      slug: data.service,
+      fullName: data.fullName,
       price: serviceDetails?.price || 0,
       phone: data.phone,
       address: data.address,
       surface: data.surface,
-      slug: data.service
+      comment: data.comment
     })
+
+    form.reset()
 
     setSuccess(true)
     setTimeout(() => {
@@ -78,7 +71,9 @@ export default function ServiceForm({ prices }: { prices: PricesData[] }) {
   }
   const selectedServiceSlug = form.watch("service")
 
-  const currentServiceUIList = calculateService.find(s => s.slug === selectedServiceSlug)?.list || []
+  const currentServiceUIList = prices.find(s => s.slug === selectedServiceSlug)?.list || []
+
+
   return (
     <div className='border border-border rounded-lg p-6'>
       <Form {...form}>
@@ -117,10 +112,10 @@ export default function ServiceForm({ prices }: { prices: PricesData[] }) {
             <div className="space-y-2 animate-in fade-in duration-300 w-full">
               <p className="font-medium">Was beinhaltet der Service:</p>
               <ul className="grid grid-cols-1 gap-1 pl-2">
-                {currentServiceUIList.map((task, idx) => (
-                  <li key={idx} className="text-label flex items-center gap-2">
+                {currentServiceUIList.map((task) => (
+                  <li key={task.id} className="text-label flex items-center gap-2">
                     <span className="w-1 h-1 bg-label rounded-full" />
-                    {task}
+                    {task.value}
                   </li>
                 ))}
               </ul>

@@ -4,7 +4,7 @@ import { strapi } from '@strapi/client'
 const url = process.env.API_URL as string
 
 export const client = strapi({
-  baseURL: url,
+  baseURL: 'https://wonderful-garden-7a8e37383c.strapiapp.com/api',
   auth: process.env.API_TOKEN,
 })
 
@@ -12,7 +12,7 @@ export async function getCollection<T>(
   contentType: string,
   options: StrapiQuery = {}
 ): Promise<T[]> {
-  const coll = await client.collection(contentType)
+  const coll = client.collection(contentType)
   const response = await coll.find(options as any) as unknown as StrapiCollection<T>
 
   if (!response) {
@@ -26,7 +26,7 @@ export async function getSingle<T>(
   contentType: string,
   options: StrapiQuery = {}
 ): Promise<T | null> {
-  const single = await client.single(contentType)
+  const single = client.single(contentType)
   const response = await single.find(options as any) as StrapiSingle<T>
 
   if (!response || !response.data) {

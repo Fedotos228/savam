@@ -5,17 +5,20 @@ import { createContext, useContext, useState } from 'react'
 export type SelectedService = {
   id: string
   title: string
+  slug: string
+  fullName: string
   address: string
   phone: string
-  surface: string
   price: number
-  slug: string
+  surface: string
+  comment?: string
 }
 
 type ServiceContextType = {
   services: SelectedService[]
   addService: (service: SelectedService) => void
   removeService: (id: string) => void
+  clearServices: () => void
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined)
@@ -31,8 +34,12 @@ export function ServiceProvider({ children }: { children: React.ReactNode }) {
     setServices((prev) => prev.filter(service => service.id !== id))
   }
 
+  const clearServices = () => {
+    setServices([])
+  }
+
   return (
-    <ServiceContext.Provider value={{ services, addService, removeService }}>
+    <ServiceContext.Provider value={{ services, addService, removeService, clearServices }}>
       {children}
     </ServiceContext.Provider>
   )

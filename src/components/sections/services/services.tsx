@@ -30,6 +30,7 @@ export default function Services({ sectionHeading, services }: ServiceData) {
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top 80%',
+        toggleActions: 'play none none reverse',
       },
       opacity: 1,
       y: 0,

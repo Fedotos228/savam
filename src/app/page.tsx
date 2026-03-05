@@ -14,7 +14,7 @@ export default async function Home() {
     servicesService.getServices(),
   ])
 
-  if (!homeData) {
+  if (!homeData || !services) {
     console.warn("Home data not found. Ensure Strapi is running and entry is published.")
     return null
   }
@@ -25,10 +25,7 @@ export default async function Home() {
     <main>
       <Hero hero={hero} />
       <About about={about} />
-      <Services
-        sectionHeading={homeData.services.SectionHeading}
-        services={services}
-      />
+      <Services sectionHeading={homeData.services.SectionHeading} services={services} />
       <Prices sectionHeading={homeData.prices.SectionHeading} />
       <Before sectionHeading={homeData.beforeAfter.SectionHeading} />
       <Review />

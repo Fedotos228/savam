@@ -9,11 +9,29 @@ export interface PricesData extends Document {
   list: ListItem[]
 }
 
+export interface FooterServices {
+  id: number
+  slug: string,
+  title: string,
+  list: ListItem[]
+}
+
 class PricesService {
-  private get query() {
+  private get PricesQuery() {
     return {
       populate: {
-        fields: ['title', 'price'],
+        fields: ['title', 'price', 'slug'],
+        list: {
+          fields: ['id', 'value']
+        }
+      }
+    } as StrapiQuery
+  }
+
+  private get FooterQuery() {
+    return {
+      populate: {
+        fields: ['title', 'slug'],
         list: {
           fields: ['id', 'value']
         }
@@ -22,7 +40,11 @@ class PricesService {
   }
 
   async getPrices(): Promise<PricesData[]> {
-    return getCollection('prices', this.query)
+    return getCollection('prices', this.PricesQuery)
+  }
+
+  async getFooterServices(): Promise<FooterServices[]> {
+    return getCollection('prices', this.FooterQuery)
   }
 }
 
