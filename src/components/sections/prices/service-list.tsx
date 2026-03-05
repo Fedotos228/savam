@@ -7,7 +7,7 @@ import { ArrowRight, LoaderCircle, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 export default function ServiceList() {
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { services, removeService, clearServices } = useServices()
 

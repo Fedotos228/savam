@@ -131,7 +131,7 @@
   }
 
   section {
-    @apply py-15 sm:py-20
+    @apply py-15 sm:py-20 scroll-mt-25
   }
 }
 

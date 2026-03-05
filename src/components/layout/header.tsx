@@ -1,3 +1,5 @@
+'use client'
+
 import { INavigation } from '@/types/header.types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -28,9 +30,22 @@ const navigation: INavigation[] = [
 export default function Header() {
   const phone = '+49 177 333 8542'
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+    e.preventDefault()
+    const targetId = href.replace('#', '')
+    const elem = document.getElementById(targetId)
+
+    elem?.scrollIntoView({
+      behavior: 'smooth',
+    })
+
+    // Opțional: Update URL în browser fără refresh
+    window.history.pushState(null, '', href)
+  }
+
   return (
     <header className='absolute z-20 left-1/2 -translate-x-1/2 top-10 flex items-center justify-center lg:justify-between container'>
-      <Image 
+      <Image
         src={'./savam_yellow.svg'}
         alt='logo'
         width={115}
@@ -39,9 +54,14 @@ export default function Header() {
       />
       <nav className='hidden lg:flex items-center lg:gap-13'>
         {navigation.map((item, i) => (
-          <Link key={i} href={item.href} className='text-background'> 
+          <a
+            key={i}
+            href={item.href}
+            onClick={(e) => handleScroll(e, item.href)}
+            className='text-background cursor-pointer hover:opacity-80 transition-opacity'
+          >
             {item.label}
-          </Link>
+          </a>
         ))}
       </nav>
       <Link
