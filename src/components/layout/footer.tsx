@@ -1,8 +1,10 @@
-import { calculateService } from '@/constans/services.constans'
+import { pricesService } from '@/services/prices.service'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Footer() {
+export default async function Footer() {
+  const footerServices = await pricesService.getFooterServices()
+
   return (
     <div
       style={{ background: 'url(./hero.jpg) center/cover no-repeat' }}
@@ -38,14 +40,14 @@ export default function Footer() {
         <div>
           <h5 className='text-left text-background font-semibold mb-13'>Reinigungsdienste:</h5>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-17.5 gap-y-13'>
-            {calculateService.map((service, i) => (
-              <div key={i}>
+            {footerServices && footerServices.map((service) => (
+              <div key={service.id}>
                 <h6 className='mb-3 text-background'>{service.title}</h6>
                 <ul className='space-y-3'>
-                  {service.list.map((item, j) => (
-                    <li key={j} className='text-background/80'>
+                  {service.list.map((item) => (
+                    <li key={item.id} className='text-background/80'>
                       <span className='inline-block w-0.5 h-0.5 bg-background/80 rounded-full mr-2'></span>
-                      {item}
+                      {item.value}
                     </li>
                   ))}
                 </ul>
