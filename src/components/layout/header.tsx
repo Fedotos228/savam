@@ -39,7 +39,6 @@ export default function Header() {
       behavior: 'smooth',
     })
 
-    // Opțional: Update URL în browser fără refresh
     window.history.pushState(null, '', href)
   }
 

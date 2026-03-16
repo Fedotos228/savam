@@ -30,7 +30,7 @@ export default async function Before({ sectionHeading }: BeforeProps) {
           ))}
         </div>
 
-        <div className='mt-13'>
+        <div className='mt-13' id='kontaktdaten'>
           <h5 className='text-foreground font-semibold mb-3'>Möchten Sie ähnliche Ergebnisse erzielen? Kontaktieren Sie uns jetzt!</h5>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
