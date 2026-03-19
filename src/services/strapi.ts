@@ -1,10 +1,8 @@
 import { StrapiCollection, StrapiQuery, StrapiSingle } from '@/types/strapi.types'
 import { strapi } from '@strapi/client'
 
-const url = process.env.API_URL as string
-
 export const client = strapi({
-  baseURL: 'https://wonderful-garden-7a8e37383c.strapiapp.com/api',
+  baseURL: process.env.API_URL as string,
   auth: process.env.API_TOKEN,
 })
 

@@ -7,11 +7,8 @@ import {
 } from "@/components/ui/dialog"
 
 type Props = {
-  disabled: boolean,
   isOpen: boolean
   setIsOpen: (open: boolean) => void
-  handleSendRequest: () => void
-  isLoading: boolean
 }
 
 export default function Modal({ isOpen, setIsOpen }: Props) {

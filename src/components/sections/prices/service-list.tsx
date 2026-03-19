@@ -11,22 +11,26 @@ export default function ServiceList() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { services, removeService, clearServices } = useServices()
 
-  console.log(services)
-
   const handleSendRequest = async () => {
     if (services.length === 0) return
     setIsLoading(true)
 
     try {
-      await fetch('/api/send', {
+      const res = await fetch('/api/send', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(services),
       })
+
+      if (!res.ok) {
+        const { error } = await res.json()
+        throw new Error(error || 'Unbekannter Fehler')
+      }
 
       clearServices()
       setIsOpen(true)
     } catch (err) {
-      alert(`Eroare: ${err}`)
+      alert(`Fehler: ${err instanceof Error ? err.message : err}`)
     } finally {
       setIsLoading(false)
     }
@@ -39,8 +43,8 @@ export default function ServiceList() {
         <div className='space-y-3 h-fit max-w-full min-h-154.5 overflow-y-auto '>
           {services.length === 0 ? (
             <p className='text-sm text-muted-foreground'>Keine Dienstleistungen ausgewählt.</p>
-          ) : services.map((service, i) => (
-            <div key={i} className='flex items-center border border-border rounded-md p-3' >
+          ) : services.map((service) => (
+            <div key={service.id} className='flex items-center border border-border rounded-md p-3' >
               <div className='flex-1'>
                 <div className='flex items-center gap-6 mb-2'>
                   <h6>{service.title}</h6>
@@ -70,13 +74,7 @@ export default function ServiceList() {
           Bestellung abschließen
           {isLoading ? <LoaderCircle className='ml-2 animate-spin' /> : <ArrowRight className='ml-2' />}
         </Button>
-        <Modal
-          disabled={services.length === 0}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          handleSendRequest={handleSendRequest}
-          isLoading={isLoading}
-        />
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
     </div>
   )

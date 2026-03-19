@@ -6,7 +6,7 @@ export default async function Footer() {
   const footerServices = await pricesService.getFooterServices()
 
   return (
-    <div
+    <footer
       style={{ background: 'url(./hero.jpg) center/cover no-repeat' }}
       className='py-20'
     >
@@ -56,6 +56,6 @@ export default async function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   )
 }
