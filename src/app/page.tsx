@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import About from '@/components/sections/about/about'
 import Before from '@/components/sections/before/before'
 import Faq from '@/components/sections/faq'
